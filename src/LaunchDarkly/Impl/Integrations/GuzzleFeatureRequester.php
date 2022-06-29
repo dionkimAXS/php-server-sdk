@@ -6,7 +6,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\BadResponseException;
 use GuzzleHttp\HandlerStack;
 use Kevinrob\GuzzleCache\CacheMiddleware;
-use Kevinrob\GuzzleCache\Strategy\PublicCacheStrategy;
+use Kevinrob\GuzzleCache\Strategy\GreedyCacheStrategy;
 use LaunchDarkly\FeatureRequester;
 use LaunchDarkly\Impl\Model\FeatureFlag;
 use LaunchDarkly\Impl\Model\Segment;
@@ -37,7 +37,7 @@ class GuzzleFeatureRequester implements FeatureRequester
         if (class_exists('\Kevinrob\GuzzleCache\CacheMiddleware')) {
             $stack->push(
                 new CacheMiddleware(
-                    new PublicCacheStrategy($options['cache'] ?? null)
+                    new GreedyCacheStrategy($options['cache'] ?? null)
                 ),
                 'cache'
             );
